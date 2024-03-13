@@ -8,6 +8,7 @@ size = Vector2(48, 14)
 
 [sub_resource type="Animation" id="Animation_rnmgv"]
 resource_name = "Idle"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -185,3 +186,4 @@ shape = SubResource("RectangleShape2D_3plgb")
 libraries = {
 "": SubResource("AnimationLibrary_i78wl")
 }
+autoplay = "Idle"

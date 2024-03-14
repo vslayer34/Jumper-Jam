@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdmuavb3w2ulv"]
+[gd_scene load_steps=11 format=3 uid="uid://cdmuavb3w2ulv"]
 
 [ext_resource type="Texture2D" uid="uid://b528t442kdwco" path="res://Assets/Textures/Character/Skin1Idle.png" id="1_0xsjn"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_rqsqr"]
 [ext_resource type="Texture2D" uid="uid://df03gp2mj5xv5" path="res://Assets/Textures/Character/Skin1Jump.png" id="2_wnidu"]
+[ext_resource type="Script" path="res://Scripts/AnimationProps.cs" id="4_4of72"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3plgb"]
 size = Vector2(48, 14)
@@ -95,10 +96,10 @@ tracks/0/path = NodePath("Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [ExtResource("2_wnidu"), ExtResource("2_wnidu"), ExtResource("2_wnidu"), ExtResource("2_wnidu")]
+"values": [ExtResource("2_wnidu"), ExtResource("2_wnidu"), ExtResource("2_wnidu")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -107,10 +108,10 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0, -49), Vector2(0, -42.6), Vector2(0, -48.1), Vector2(0, -49)]
+"values": [Vector2(0, -49), Vector2(0, -48.1), Vector2(0, -49)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -119,10 +120,10 @@ tracks/2/path = NodePath("Sprite2D:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.35, 0.35), Vector2(0.319749, 0.315957), Vector2(0.338558, 0.345213), Vector2(0.35, 0.35)]
+"values": [Vector2(0.35, 0.35), Vector2(0.338558, 0.345213), Vector2(0.35, 0.35)]
 }
 
 [sub_resource type="Animation" id="Animation_5husa"]
@@ -172,12 +173,13 @@ _data = {
 "RESET": SubResource("Animation_5husa")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_playerSprite")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_playerSprite", "_animPlayer")]
 z_index = 100
 collision_mask = 2
 script = ExtResource("1_rqsqr")
 _speed = 300.0
 _playerSprite = NodePath("Sprite2D")
+_animPlayer = NodePath("AnimationPlayer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -46)
@@ -193,3 +195,6 @@ libraries = {
 "": SubResource("AnimationLibrary_i78wl")
 }
 autoplay = "Idle"
+script = ExtResource("4_4of72")
+_jumpAnimation = &"Idle"
+_fallAnimation = &"Jump"

@@ -10,16 +10,25 @@ script = ExtResource("1_troq4")
 [node name="Player" parent="." instance=ExtResource("2_ksona")]
 position = Vector2(215, 497)
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Platform5" parent="." instance=ExtResource("3_02uk4")]
+position = Vector2(373, 573)
+
+[node name="Platform6" parent="." instance=ExtResource("3_02uk4")]
+position = Vector2(73, 375)
+
+[node name="Platform7" parent="." instance=ExtResource("3_02uk4")]
+position = Vector2(257, 115)
+
+[node name="Ground" type="Node2D" parent="."]
 position = Vector2(0, 914)
 
-[node name="Platform" parent="Node2D" instance=ExtResource("3_02uk4")]
+[node name="Platform" parent="Ground" instance=ExtResource("3_02uk4")]
 
-[node name="Platform2" parent="Node2D" instance=ExtResource("3_02uk4")]
+[node name="Platform2" parent="Ground" instance=ExtResource("3_02uk4")]
 position = Vector2(134, 0)
 
-[node name="Platform3" parent="Node2D" instance=ExtResource("3_02uk4")]
+[node name="Platform3" parent="Ground" instance=ExtResource("3_02uk4")]
 position = Vector2(268, 0)
 
-[node name="Platform4" parent="Node2D" instance=ExtResource("3_02uk4")]
+[node name="Platform4" parent="Ground" instance=ExtResource("3_02uk4")]
 position = Vector2(402, 0)

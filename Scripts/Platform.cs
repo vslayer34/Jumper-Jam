@@ -10,7 +10,11 @@ public partial class Platform : Area2D
 
     private void ReactToPlayer(Node2D body)
     {
-        GD.Print("Player entered the platform");
+        if (body is Player player)
+		{
+			if (player.Velocity.Y > 0)
+				player.Jump();
+		}
     }
 
 }

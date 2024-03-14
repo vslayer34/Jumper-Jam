@@ -8,15 +8,22 @@ public partial class Player : CharacterBody2D
 	[ExportCategory("player movment properties")]
 	[Export]
 	private float _speed;
+	
+	[Export]
+	private float _jumpForce = -800.0f;
 
 	[Export]
 	private float _gravity = 15.0f;
+
 
 	private Vector2 _movmentDirection;
 
 	// screen teleport properties
 	[Export]
 	private Sprite2D _playerSprite;
+
+	[Export]
+	private AnimationProps _animPlayer;
 
 	private float _spriteWidthHalfed;
 	private Vector2 _viewportSize;
@@ -28,6 +35,20 @@ public partial class Player : CharacterBody2D
         base._Ready();
 		_viewportSize = GetViewportRect().Size;
 		_spriteWidthHalfed = _playerSprite.Texture.GetSize().X * _playerSprite.Scale.X / 4.0f;
+    }
+
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+		if (Velocity.Y < 0)
+		{
+			_animPlayer.PlayJumpAnimation();
+		}
+		else if (Velocity.Y > 0)
+		{
+			_animPlayer.PlayFallAnimation();
+		}
     }
 
 
@@ -88,5 +109,14 @@ public partial class Player : CharacterBody2D
 	{
 		float maxGravity = 1000.0f;
 		Velocity = new Vector2(Velocity.X, Mathf.Clamp(Velocity.Y + _gravity, Velocity.Y, maxGravity));
+	}
+
+
+	/// <summary>
+	/// Make the player jump using jump force
+	/// </summary>
+	public void Jump()
+	{
+		Velocity = new Vector2(Velocity.X, _jumpForce);
 	}
 }

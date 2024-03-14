@@ -28,9 +28,6 @@ public partial class Player : CharacterBody2D
         base._Ready();
 		_viewportSize = GetViewportRect().Size;
 		_spriteWidthHalfed = _playerSprite.Texture.GetSize().X * _playerSprite.Scale.X / 4.0f;
-
-		GD.Print($"Viewport Size: {_viewportSize}");
-		GD.Print($"Player sprite width: {_spriteWidthHalfed}");
     }
 
 
@@ -91,6 +88,5 @@ public partial class Player : CharacterBody2D
 	{
 		float maxGravity = 1000.0f;
 		Velocity = new Vector2(Velocity.X, Mathf.Clamp(Velocity.Y + _gravity, Velocity.Y, maxGravity));
-		GD.Print(Velocity.Y);
 	}
 }

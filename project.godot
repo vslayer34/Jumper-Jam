@@ -47,6 +47,11 @@ move_right={
 pointing/emulate_touch_from_mouse=true
 pointing/android/enable_long_press_as_right_click=true
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Platform"
+
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -173,6 +173,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_playerSprite")]
+z_index = 100
+collision_mask = 2
 script = ExtResource("1_rqsqr")
 _speed = 300.0
 _playerSprite = NodePath("Sprite2D")

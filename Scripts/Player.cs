@@ -5,8 +5,12 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	// player input handler
+	[ExportCategory("player movment properties")]
 	[Export]
 	private float _speed;
+
+	[Export]
+	private float _gravity = 15.0f;
 
 	private Vector2 _movmentDirection;
 
@@ -35,6 +39,7 @@ public partial class Player : CharacterBody2D
         base._PhysicsProcess(delta);
 		MovePlayer();
 		TeleportBetweenScreenEdges();
+		ApplyGravity();
     }
 
 
@@ -76,5 +81,16 @@ public partial class Player : CharacterBody2D
 		{
 			GlobalPosition = new Vector2(_viewportSize.X + _spriteWidthHalfed, GlobalPosition.Y);
 		}
+	}
+
+
+	/// <summary>
+	/// Apply gravity to the player
+	/// </summary>
+	private void ApplyGravity()
+	{
+		float maxGravity = 1000.0f;
+		Velocity = new Vector2(Velocity.X, Mathf.Clamp(Velocity.Y + _gravity, Velocity.Y, maxGravity));
+		GD.Print(Velocity.Y);
 	}
 }

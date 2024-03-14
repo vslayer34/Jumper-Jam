@@ -172,9 +172,10 @@ _data = {
 "RESET": SubResource("Animation_5husa")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_playerSprite")]
 script = ExtResource("1_rqsqr")
 _speed = 300.0
+_playerSprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -46)

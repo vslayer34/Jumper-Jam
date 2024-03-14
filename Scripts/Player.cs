@@ -4,15 +4,37 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
+	// player input handler
 	[Export]
 	private float _speed;
+
 	private Vector2 _movmentDirection;
+
+	// screen teleport properties
+	[Export]
+	private Sprite2D _playerSprite;
+
+	private float _spriteWidthHalfed;
+	private Vector2 _viewportSize;
+
+
+
+    public override void _Ready()
+    {
+        base._Ready();
+		_viewportSize = GetViewportRect().Size;
+		_spriteWidthHalfed = _playerSprite.Texture.GetSize().X * _playerSprite.Scale.X / 4.0f;
+
+		GD.Print($"Viewport Size: {_viewportSize}");
+		GD.Print($"Player sprite width: {_spriteWidthHalfed}");
+    }
 
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
 		MovePlayer();
+		TeleportBetweenScreenEdges();
     }
 
 
@@ -36,9 +58,23 @@ public partial class Player : CharacterBody2D
 			Velocity = Velocity.MoveToward(_movmentDirection, _speed / easeToHalt);
 		}
 
-		GD.Print(direction);
-		GD.Print(_movmentDirection);
-
 		MoveAndSlide();
+	}
+
+
+	/// <summary>
+	/// When the player reach either side of the screen edges
+	/// it teleports back in on the other side
+	/// </summary>
+	private void TeleportBetweenScreenEdges()
+	{
+		if (GlobalPosition.X > _viewportSize.X + _spriteWidthHalfed)
+		{
+			GlobalPosition = new Vector2(-1 * _spriteWidthHalfed, GlobalPosition.Y);
+		}
+		else if (GlobalPosition.X < 0 - _spriteWidthHalfed)
+		{
+			GlobalPosition = new Vector2(_viewportSize.X + _spriteWidthHalfed, GlobalPosition.Y);
+		}
 	}
 }

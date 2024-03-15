@@ -10,11 +10,13 @@ public partial class SpawnManager : Node
 	private PackedScene _PlatformScene;
 
 	private Platform _spawnedPlatform;
+	private Vector2 _viewportSize;
 
 
     public override void _Ready()
     {
         base._Ready();
+		// _viewportSize = GetViewport
 		CreatePlatform(new Vector2(100.0f, 300.0f));
     }
 
@@ -30,5 +32,11 @@ public partial class SpawnManager : Node
 		_spawnedPlatform.GlobalPosition = location;
 		_spawnParent.AddChild(_spawnedPlatform);
 		return _spawnedPlatform;
+	}
+
+
+	private void CreateGround()
+	{
+
 	}
 }

@@ -18,9 +18,6 @@ public partial class AnimationProps : AnimationPlayer
 		{
 			Play(_jumpAnimation);
 		}
-
-		GD.Print("Play Jump Animation");
-
 	}
 
 	public void PlayFallAnimation()
@@ -29,8 +26,5 @@ public partial class AnimationProps : AnimationPlayer
 		{
 			Play(_fallAnimation);
 		}
-
-		
-		GD.Print("Play Fall Animation");
 	}
 }

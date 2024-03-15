@@ -3,13 +3,28 @@ using System;
 
 public partial class GamePlay : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+	[Export]
+	private PackedScene _cameraScene;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	[Export]
+	private Player _player;
+
+
+    public override void _Ready()
+    {
+        base._Ready();
+		InstantiateTheCamera();
+    }
+
+
+
+	/// <summary>
+	/// Create the camera at the start of the game and make it follow the player
+	/// </summary>
+	private void InstantiateTheCamera()
 	{
+		GameCamera _cameraScript = _cameraScene.Instantiate() as GameCamera;
+		_cameraScript.Player = _player;
+		AddChild(_cameraScript);
 	}
 }

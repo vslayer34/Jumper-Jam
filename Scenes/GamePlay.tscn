@@ -30,4 +30,5 @@ position = Vector2(402, 0)
 
 [node name="PlatformParent" type="Node2D" parent="."]
 script = ExtResource("5_8hg08")
+_levelSize = 50.0
 _PlatformScene = ExtResource("3_02uk4")

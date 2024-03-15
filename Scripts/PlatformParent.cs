@@ -42,6 +42,9 @@ public partial class PlatformParent : Node2D
 	private Platform _spawnedPlatform;
 	private Vector2 _viewportSize;
 
+
+	private int _generatedPlatformsCount;
+
 	private PlatformMinMaxValues _platformPositionValues;
 
 
@@ -132,6 +135,7 @@ public partial class PlatformParent : Node2D
 			platormSpawnLocation.Y = startPlatformYPosition - (i * 200.0f);
 
 			CreatePlatform(platormSpawnLocation);
+			_generatedPlatformsCount++;
 		}
 	}
 }

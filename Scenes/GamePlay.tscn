@@ -14,7 +14,7 @@ _player = NodePath("Player")
 _sectionSize = 50
 
 [node name="Player" parent="." instance=ExtResource("2_ksona")]
-position = Vector2(215, 497)
+position = Vector2(215, 872)
 
 [node name="Ground" type="Node2D" parent="."]
 position = Vector2(0, 914)

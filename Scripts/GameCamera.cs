@@ -7,12 +7,19 @@ public partial class GameCamera : Camera2D
 
 	private Vector2 _viewPortSize;
 
+	private Area2D _platformDestroyer;
+	private CollisionShape2D _destroyerCollider;
+
     public override void _Ready()
     {
         base._Ready();
 		_viewPortSize = GetViewportRect().Size;
 
+		_platformDestroyer = GetNode<Area2D>("PlatformDestroyer");
+		_destroyerCollider = GetNode<CollisionShape2D>("PlatformDestroyer/CollisionShape2D");
+
 		SetCameraStartPosition();
+		SetPlatformDestroyerCollider();
     }
 
     public override void _Process(double delta)
@@ -71,6 +78,24 @@ public partial class GameCamera : Camera2D
 	}
 
 
+	/// <summary>
+	/// Set the collider shape of the destroyer and it position according to the view port
+	/// </summary>
+	private void SetPlatformDestroyerCollider()
+	{
+		// to set at the end of the buttom half of the screen
+		_platformDestroyer.Position = new Vector2(_platformDestroyer.Position.X, _viewPortSize.Y / 2.0f);
 
+		RectangleShape2D rectangle = new RectangleShape2D()
+		{
+			Size = new Vector2(_viewPortSize.X, 100.0f)
+		};
+
+		_destroyerCollider.Shape = rectangle;
+	}
+
+
+
+	// Getters and Setters
     public Player Player { set => _player = value; }
 }

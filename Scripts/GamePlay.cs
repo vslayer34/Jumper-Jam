@@ -8,6 +8,7 @@ public partial class GamePlay : Node2D
 	private PackedScene _cameraScene;
 
 	[Export]
+	private PackedScene _playerScene;
 	private Player _player;
 
 
@@ -21,6 +22,7 @@ public partial class GamePlay : Node2D
     public override void _Ready()
     {
         base._Ready();
+		SpawnPlayer();
 		InstantiateTheCamera();
     }
 
@@ -29,8 +31,6 @@ public partial class GamePlay : Node2D
     {
         base._Process(delta);
 		HandleDebugControls();
-
-		// if (_player.GlobalPosition.Y >)
     }
 
 
@@ -61,6 +61,21 @@ public partial class GamePlay : Node2D
 		{
 			GetTree().ReloadCurrentScene();
 		}
+	}
+
+
+
+	/// <summary>
+	/// Spawn the player to the scene and sets its position in relation to the view port
+	/// </summary>
+	private void SpawnPlayer()
+	{
+		Vector2 viewportSize = GetViewportRect().Size;
+		float groundOffset = 150.0f;
+
+		_player = _playerScene.Instantiate() as Player;
+		_player.GlobalPosition = new Vector2(viewportSize.X / 2.0f, viewportSize.Y - groundOffset);
+		AddChild(_player);
 	}
 
 

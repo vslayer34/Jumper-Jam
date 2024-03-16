@@ -6,15 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://cyygfpqy0x6eh" path="res://Scenes/Platform.tscn" id="3_02uk4"]
 [ext_resource type="Script" path="res://Scripts/PlatformParent.cs" id="5_8hg08"]
 
-[node name="GamePlay" type="Node2D" node_paths=PackedStringArray("_player")]
+[node name="GamePlay" type="Node2D"]
 position = Vector2(0, -1)
 script = ExtResource("1_troq4")
 _cameraScene = ExtResource("2_kqouc")
-_player = NodePath("Player")
+_playerScene = ExtResource("2_ksona")
 _sectionSize = 50
-
-[node name="Player" parent="." instance=ExtResource("2_ksona")]
-position = Vector2(215, 872)
 
 [node name="Ground" type="Node2D" parent="."]
 position = Vector2(0, 914)

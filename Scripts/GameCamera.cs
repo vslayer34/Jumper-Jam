@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class GameCamera : Camera2D
@@ -26,6 +27,7 @@ public partial class GameCamera : Camera2D
     {
         base._Process(delta);
 		ChangeCameraButtomLimit();
+		DestroyPlatforms();
     }
 
 
@@ -83,8 +85,8 @@ public partial class GameCamera : Camera2D
 	/// </summary>
 	private void SetPlatformDestroyerCollider()
 	{
-		// to set at the end of the buttom half of the screen
-		_platformDestroyer.Position = new Vector2(_platformDestroyer.Position.X, _viewPortSize.Y / 2.0f);
+		// to set at the end of the screem
+		_platformDestroyer.Position = new Vector2(_platformDestroyer.Position.X, _viewPortSize.Y);
 
 		RectangleShape2D rectangle = new RectangleShape2D()
 		{
@@ -92,6 +94,30 @@ public partial class GameCamera : Camera2D
 		};
 
 		_destroyerCollider.Shape = rectangle;
+	}
+
+
+
+	/// <summary>
+	/// Go through the over lapping arease
+	/// and check if it's a Platform and release if that is the case
+	/// </summary>
+	private void DestroyPlatforms()
+	{
+		Array<Area2D> overlappingAreas = _platformDestroyer.GetOverlappingAreas();
+
+		if (overlappingAreas.Count == 0)
+		{
+			return;
+		}
+
+		foreach (var area in overlappingAreas)
+		{
+			if (area is Platform)
+			{
+				area.QueueFree();
+			}
+		}
 	}
 
 

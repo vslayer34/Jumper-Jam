@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://v2pi588i6o55"]
+[gd_scene load_steps=11 format=3 uid="uid://v2pi588i6o55"]
 
 [ext_resource type="Script" path="res://Scripts/GamePlay.cs" id="1_troq4"]
 [ext_resource type="PackedScene" uid="uid://wj1tj60sdp3r" path="res://Scenes/GameCamera.tscn" id="2_kqouc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/PlatformParent.cs" id="5_8hg08"]
 [ext_resource type="Texture2D" uid="uid://cppyufy5qpe8n" path="res://Assets/Textures/BG/Ground.png" id="6_yis37"]
 [ext_resource type="Texture2D" uid="uid://diycrq7op80wa" path="res://Assets/Textures/BG/Layer1.png" id="7_c8k0x"]
+[ext_resource type="Script" path="res://Scripts/ParallaxBGHandler.cs" id="7_tq2ih"]
 [ext_resource type="Texture2D" uid="uid://blkhi33ff40k3" path="res://Assets/Textures/BG/Layer2.png" id="8_xqv7g"]
 [ext_resource type="Texture2D" uid="uid://d3j3keesibovg" path="res://Assets/Textures/BG/Layer3.png" id="9_76bmo"]
 
@@ -27,7 +28,10 @@ scale = Vector2(1.605, 0.7)
 texture = ExtResource("6_yis37")
 offset = Vector2(0, -61)
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." node_paths=PackedStringArray("_gameplayScript", "_parallaxLayers")]
+script = ExtResource("7_tq2ih")
+_gameplayScript = NodePath("..")
+_parallaxLayers = [NodePath("ParallaxLayer1"), NodePath("ParallaxLayer2"), NodePath("ParallaxLayer3")]
 
 [node name="ParallaxLayer1" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.1, 0.1)
@@ -48,6 +52,7 @@ texture = ExtResource("8_xqv7g")
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.8, 0.8)
 motion_mirroring = Vector2(0, 1935.9)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]

@@ -13,6 +13,8 @@ public partial class GamePlay : Node2D
 
 	private Sprite2D _groundSprite;
 
+	private Vector2 _viewportSize;
+
 
 	[Export]
 	/// <summary>
@@ -25,6 +27,7 @@ public partial class GamePlay : Node2D
     {
         base._Ready();
 		_groundSprite = GetNode<Sprite2D>("GroundSprite");
+		_viewportSize = GetViewportRect().Size;
 
 		SpawnPlayer();
 		SetGroundSpritePosition();
@@ -75,11 +78,10 @@ public partial class GamePlay : Node2D
 	/// </summary>
 	private void SpawnPlayer()
 	{
-		Vector2 viewportSize = GetViewportRect().Size;
 		float groundOffset = 150.0f;
 
 		_player = _playerScene.Instantiate() as Player;
-		_player.GlobalPosition = new Vector2(viewportSize.X / 2.0f, viewportSize.Y - groundOffset);
+		_player.GlobalPosition = new Vector2(_viewportSize.X / 2.0f, _viewportSize.Y - groundOffset);
 		AddChild(_player);
 	}
 
@@ -91,8 +93,8 @@ public partial class GamePlay : Node2D
 	{
 		_groundSprite.GlobalPosition = new Vector2()
 		{
-			X = GetViewportRect().Size.X / 2.0f,
-			Y = GetViewportRect().Size.Y
+			X = _viewportSize.X / 2.0f,
+			Y = _viewportSize.Y
 		};
 	}
 
@@ -104,4 +106,6 @@ public partial class GamePlay : Node2D
 	/// Get the player Global Y position
 	/// </summary>
 	public float PlayerYPosition { get => _player.GlobalPosition.Y; }
+
+	public Vector2 ViewportSize { get => _viewportSize; }
 }

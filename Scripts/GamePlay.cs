@@ -11,6 +11,8 @@ public partial class GamePlay : Node2D
 	private PackedScene _playerScene;
 	private Player _player;
 
+	private Sprite2D _groundSprite;
+
 
 	[Export]
 	/// <summary>
@@ -22,7 +24,10 @@ public partial class GamePlay : Node2D
     public override void _Ready()
     {
         base._Ready();
+		_groundSprite = GetNode<Sprite2D>("GroundSprite");
+
 		SpawnPlayer();
+		SetGroundSpritePosition();
 		InstantiateTheCamera();
     }
 
@@ -76,6 +81,19 @@ public partial class GamePlay : Node2D
 		_player = _playerScene.Instantiate() as Player;
 		_player.GlobalPosition = new Vector2(viewportSize.X / 2.0f, viewportSize.Y - groundOffset);
 		AddChild(_player);
+	}
+
+
+	/// <summary>
+	/// Set the position of the ground sprite according to screen rect
+	/// </summary>
+	private void SetGroundSpritePosition()
+	{
+		_groundSprite.GlobalPosition = new Vector2()
+		{
+			X = GetViewportRect().Size.X / 2.0f,
+			Y = GetViewportRect().Size.Y
+		};
 	}
 
 

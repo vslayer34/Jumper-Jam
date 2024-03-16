@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://v2pi588i6o55"]
+[gd_scene load_steps=7 format=3 uid="uid://v2pi588i6o55"]
 
 [ext_resource type="Script" path="res://Scripts/GamePlay.cs" id="1_troq4"]
 [ext_resource type="PackedScene" uid="uid://wj1tj60sdp3r" path="res://Scenes/GameCamera.tscn" id="2_kqouc"]
 [ext_resource type="PackedScene" uid="uid://cdmuavb3w2ulv" path="res://Scenes/Player.tscn" id="2_ksona"]
 [ext_resource type="PackedScene" uid="uid://cyygfpqy0x6eh" path="res://Scenes/Platform.tscn" id="3_02uk4"]
 [ext_resource type="Script" path="res://Scripts/PlatformParent.cs" id="5_8hg08"]
+[ext_resource type="Texture2D" uid="uid://cppyufy5qpe8n" path="res://Assets/Textures/BG/Ground.png" id="6_yis37"]
 
 [node name="GamePlay" type="Node2D"]
 position = Vector2(0, -1)
@@ -13,21 +14,12 @@ _cameraScene = ExtResource("2_kqouc")
 _playerScene = ExtResource("2_ksona")
 _sectionSize = 50
 
-[node name="Ground" type="Node2D" parent="."]
-position = Vector2(0, 914)
-
-[node name="Platform" parent="Ground" instance=ExtResource("3_02uk4")]
-
-[node name="Platform2" parent="Ground" instance=ExtResource("3_02uk4")]
-position = Vector2(134, 0)
-
-[node name="Platform3" parent="Ground" instance=ExtResource("3_02uk4")]
-position = Vector2(268, 0)
-
-[node name="Platform4" parent="Ground" instance=ExtResource("3_02uk4")]
-position = Vector2(402, 0)
-
 [node name="PlatformParent" type="Node2D" parent="." node_paths=PackedStringArray("_gamePlayManager")]
 script = ExtResource("5_8hg08")
 _PlatformScene = ExtResource("3_02uk4")
 _gamePlayManager = NodePath("..")
+
+[node name="GroundSprite" type="Sprite2D" parent="."]
+scale = Vector2(1.605, 0.7)
+texture = ExtResource("6_yis37")
+offset = Vector2(0, -61)

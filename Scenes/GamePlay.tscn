@@ -7,9 +7,11 @@
 [ext_resource type="Script" path="res://Scripts/PlatformParent.cs" id="5_8hg08"]
 
 [node name="GamePlay" type="Node2D" node_paths=PackedStringArray("_player")]
+position = Vector2(0, -1)
 script = ExtResource("1_troq4")
 _cameraScene = ExtResource("2_kqouc")
 _player = NodePath("Player")
+_sectionSize = 50
 
 [node name="Player" parent="." instance=ExtResource("2_ksona")]
 position = Vector2(215, 497)
@@ -28,7 +30,7 @@ position = Vector2(268, 0)
 [node name="Platform4" parent="Ground" instance=ExtResource("3_02uk4")]
 position = Vector2(402, 0)
 
-[node name="PlatformParent" type="Node2D" parent="."]
+[node name="PlatformParent" type="Node2D" parent="." node_paths=PackedStringArray("_gamePlayManager")]
 script = ExtResource("5_8hg08")
-_levelSize = 50.0
 _PlatformScene = ExtResource("3_02uk4")
+_gamePlayManager = NodePath("..")

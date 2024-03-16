@@ -11,6 +11,13 @@ public partial class GamePlay : Node2D
 	private Player _player;
 
 
+	[Export]
+	/// <summary>
+	/// Section size when the player near it's end spawn another section
+	/// </summary>
+	private int _sectionSize;
+
+
     public override void _Ready()
     {
         base._Ready();
@@ -22,6 +29,8 @@ public partial class GamePlay : Node2D
     {
         base._Process(delta);
 		HandleDebugControls();
+
+		// if (_player.GlobalPosition.Y >)
     }
 
 
@@ -53,4 +62,13 @@ public partial class GamePlay : Node2D
 			GetTree().ReloadCurrentScene();
 		}
 	}
+
+
+	// getters and setters
+	public int SectionSize { get => _sectionSize; }
+
+	/// <summary>
+	/// Get the player Global Y position
+	/// </summary>
+	public float PlayerYPosition { get => _player.GlobalPosition.Y; }
 }

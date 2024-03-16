@@ -24,20 +24,19 @@ struct PlatformMinMaxValues
 	/// maximum horizontal distance between platfoms
 	/// </summary>
 	public float maxXDistance;
-
-	/// <summary>
-	/// The first platform that spawn form the ground
-	/// </summary>
-	public float startYPosition;
 }
 
 public partial class PlatformParent : Node2D
 {
-	[Export]
-	private float _levelSize;
+	private int _sectionSize;
 
 	[Export]
 	private PackedScene _PlatformScene;
+
+
+	[Export]
+	private GamePlay _gamePlayManager;
+
 
 	private Platform _spawnedPlatform;
 	private Vector2 _viewportSize;
@@ -48,29 +47,55 @@ public partial class PlatformParent : Node2D
 	private PlatformMinMaxValues _platformPositionValues;
 
 
+	// reference to the last created platform and new section spawn point threashold
+	private Platform _lastCreatedPlatform;
+	private float _newSpawnThreashold;
+
+
+	// prevent the Generate new level from calling each update
+	// only set it true in the one frame that creates new section
+	// then set it back to false when the section is created
+	private bool _isNewSectionNeeded;
+
+
+
     public override void _Ready()
     {
         base._Ready();
+		// Get the section size value from the game manager
+		_sectionSize = _gamePlayManager.SectionSize;
 		_viewportSize = GetViewportRect().Size;
 		CreateGround();
 		GenerateLevel();
     }
 
 
-	/// <summary>
-	/// Fill the values struct with the random horicontal position and vertical distance between platforms based on viewport<br/>
-	/// Set the start Y position too 
-	/// </summary>
-	/// <param name="platformWidth">the platfrom width: usefull for spawning distance at the right side of the screen</param>
-	private void SetPositionGenerationValues(float platformWidth)
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+
+		// Track the player Y position and spawn a new section when he/she reach a certain threashold
+		if (_gamePlayManager.PlayerYPosition < _newSpawnThreashold && !_isNewSectionNeeded)
+		{
+			_isNewSectionNeeded = true;
+			GenerateLevel();
+		}
+    }
+
+
+    /// <summary>
+    /// Fill the values struct with the random horicontal position and vertical distance between platforms based on viewport<br/>
+    /// Set the start Y position too 
+    /// </summary>
+    /// <param name="platformWidth">the platfrom width: usefull for spawning distance at the right side of the screen</param>
+    private void SetPositionGenerationValues(float platformWidth)
 	{
 		_platformPositionValues.minYDistance = 100.0f;
 		_platformPositionValues.maxYDistance = 200.0f;
 
 		_platformPositionValues.minXDistance = 0.0f;
 		_platformPositionValues.maxXDistance = _viewportSize.X - platformWidth;
-
-		_platformPositionValues.startYPosition =  _viewportSize.Y - (float)GD.RandRange(_platformPositionValues.minYDistance, _platformPositionValues.maxYDistance);
 	}
 
 
@@ -108,7 +133,8 @@ public partial class PlatformParent : Node2D
 
 		for (int i = 0; i < numberOfPlatforms; i++)
 		{
-			CreatePlatform(new Vector2(i * platformWidth, _viewportSize.Y - platformHeight));
+			// assign the last created platform to use its Y position in calculating other spawned platforms
+			_lastCreatedPlatform = CreatePlatform(new Vector2(i * platformWidth, _viewportSize.Y - platformHeight));
 		}
 
 		SetPositionGenerationValues(platformWidth);
@@ -122,20 +148,28 @@ public partial class PlatformParent : Node2D
 	/// </summary>
 	private void GenerateLevel()
 	{
-		float startPlatformYPosition = _platformPositionValues.startYPosition;
+		// set it to false to prevent calling it more than one time when the player reaches the threashold point
+		_isNewSectionNeeded = false;
 		float verticalDistanceBetweenPlatforms; 
 		Vector2 platormSpawnLocation;
 
-		for (int i = 0; i < _levelSize; i++)
+		for (int i = 0; i < _sectionSize; i++)
 		{
 			// get new randomized x and y offset and calculate new spawn vector from them
 			verticalDistanceBetweenPlatforms = (float)GD.RandRange(_platformPositionValues.minYDistance, _platformPositionValues.maxYDistance);
 
 			platormSpawnLocation.X = (float)GD.RandRange(_platformPositionValues.minXDistance, _platformPositionValues.maxXDistance);
-			platormSpawnLocation.Y = startPlatformYPosition - (i * 200.0f);
+			platormSpawnLocation.Y = _lastCreatedPlatform.GlobalPosition.Y - verticalDistanceBetweenPlatforms;
 
-			CreatePlatform(platormSpawnLocation);
+			_lastCreatedPlatform = CreatePlatform(platormSpawnLocation);
 			_generatedPlatformsCount++;
 		}
+
+
+		GD.Print(_lastCreatedPlatform.GlobalPosition.Y);
+		// set the spawn threashold to be the final third of the previuse section
+		// to spawn a ne section when the player reaches this point
+		_newSpawnThreashold = _lastCreatedPlatform.GlobalPosition.Y / 3 * 2;
+		GD.Print(_newSpawnThreashold);
 	}
 }

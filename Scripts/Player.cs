@@ -28,11 +28,16 @@ public partial class Player : CharacterBody2D
 	private float _spriteWidthHalfed;
 	private Vector2 _viewportSize;
 
-
+	private bool _isUsingAccelerometer = false;
 
     public override void _Ready()
     {
         base._Ready();
+		
+		if (OS.GetName() == "Android")
+		{
+			_isUsingAccelerometer = true;
+		}
 		_viewportSize = GetViewportRect().Size;
 		_spriteWidthHalfed = _playerSprite.Texture.GetSize().X * _playerSprite.Scale.X / 4.0f;
     }

@@ -17,10 +17,7 @@ public partial class ParallaxBGHandler : ParallaxBackground
     {
         base._Ready();
 
-		foreach (var layer in _parallaxLayers)
-		{
-			SetupParallaxLayer(layer);
-		}
+		
 		GD.Print(_gameplayScript.ViewportSize);
     }
 
@@ -37,12 +34,12 @@ public partial class ParallaxBGHandler : ParallaxBackground
     /// <param name="parallaxLayer">parent parallax layer</param>
     /// <param name="spriteTextureSize">return the texture size to set the mirroring offset</param>
     /// <returns>The correct scale</returns>
-    private float GetParallaxSpritScale(ParallaxLayer parallaxLayer, out Vector2 spriteTextureSize)
+    private float GetParallaxSpritScale(ParallaxLayer parallaxLayer, Vector2 viewportSize, out Vector2 spriteTextureSize)
 	{
 		Sprite2D parallaxSprite = parallaxLayer.FindChild("Sprite2D") as Sprite2D;
 		spriteTextureSize = parallaxSprite.Texture.GetSize();
 
-		float correctScale = spriteTextureSize.X / _gameplayScript.ViewportSize.X;
+		float correctScale =  viewportSize.X / spriteTextureSize.X;
 		parallaxSprite.Scale = new Vector2(correctScale, correctScale);
 		
 		return correctScale;
@@ -53,9 +50,21 @@ public partial class ParallaxBGHandler : ParallaxBackground
 	/// set the motion mirror vector of the <c>parallaxLayer</c>
 	/// </summary>
 	/// <param name="parallaxLayer"></param>
-	private void SetupParallaxLayer(ParallaxLayer parallaxLayer)
+	private void SetupParallaxLayer(ParallaxLayer parallaxLayer, Vector2 viewportSize)
 	{
-		float correctScale = GetParallaxSpritScale(parallaxLayer, out Vector2 spriteSize);
+		float correctScale = GetParallaxSpritScale(parallaxLayer, viewportSize, out Vector2 spriteSize);
 		parallaxLayer.MotionMirroring = new Vector2(0.0f, spriteSize.Y * correctScale);
+	}
+
+	/// <summary>
+	/// Set up the parallax Background
+	/// </summary>
+	/// <param name="viewportSize">The view port size</param>
+	public void SetupParallaxBG(Vector2 viewportSize)
+	{
+		foreach (var layer in _parallaxLayers)
+		{
+			SetupParallaxLayer(layer, viewportSize);
+		}
 	}
 }

@@ -1,3 +1,4 @@
+using Background;
 using Godot;
 using InputActionNames;
 using System;
@@ -9,6 +10,10 @@ public partial class GamePlay : Node2D
 
 	[Export]
 	private PackedScene _playerScene;
+
+	[Export]
+	private ParallaxBGHandler _parallaxHandller;
+
 	private Player _player;
 
 	private Sprite2D _groundSprite;
@@ -28,6 +33,8 @@ public partial class GamePlay : Node2D
         base._Ready();
 		_groundSprite = GetNode<Sprite2D>("GroundSprite");
 		_viewportSize = GetViewportRect().Size;
+
+		_parallaxHandller.SetupParallaxBG(ViewportSize);
 
 		SpawnPlayer();
 		SetGroundSpritePosition();
